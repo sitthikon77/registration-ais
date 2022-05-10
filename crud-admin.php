@@ -51,8 +51,8 @@ if (isset($_POST['submit'])) {
     $_SESSION['error'] = 'เพิ่มสมาชิกไม่สำเร็จ!! โปรดตรวจสอบข้อมูลอีกครั้ง';
     header('refresh:3;');
   } else {
-    $insert = $conn->prepare("INSERT INTO `users`(fname, lname, phone, email, workplace, image_person, image_atk, image_vaccine) VALUES(?,?,?,?,?,?,?,?)");
-    $insert->execute([$fname, $lname, $phone, $email, $workplace, $new_image_person, $new_image_atk, $new_image_vaccine]);
+    $insert = $conn->prepare("INSERT INTO `users`(fname, lname, phone, email, workplace, image_person, image_atk, image_vaccine, user_status) VALUES(?,?,?,?,?,?,?,?,?)");
+    $insert->execute([$fname, $lname, $phone, $email, $workplace, $new_image_person, $new_image_atk, $new_image_vaccine, 'Pending']);
     if ($insert) {
       move_uploaded_file($image_person_tmp_name, $image_person_folder);
       move_uploaded_file($image_atk_tmp_name, $image_atk_folder);
@@ -105,12 +105,76 @@ if (isset($_GET['delete'])) {
       text-decoration: none;
       color: #000;
     }
+
+    /* POPUP */
+
+.box .img-box{
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+}
+.box .img-box.active{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+}
+/* .box .img-box img{
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+} */
+.box .img-box.active img{
+    position: absolute;
+    left: 30%;
+    width: calc(50% - 100px);
+    height: calc(100% - 100px);
+}
+.box .img-box h2{
+    opacity: 0;
+    visibility: hidden;
+    cursor: pointer;
+}
+.box .img-box.active h2{
+    opacity: 1;
+    visibility: visible;
+    text-align: center;
+    color: red;
+    font-size: 18px;
+    font-weight: 800;
+    margin-top: 15px;
+    letter-spacing: 4px;
+}
+.box .img-box .content{
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+    left: 50px;
+    opacity: 0;
+    visibility: hidden;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    color: #ffffff;
+    transform: translateY(100%);
+}
+.box .img-box.active .content{
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition: 0.5s;
+}
   </style>
 
   <!-- css-bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <!-- css-style -->
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style1.css">
   <!-- fontawesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -169,7 +233,31 @@ if (isset($_GET['delete'])) {
         <div class="col-md-6 d-flex justify-content-end mb-3">
           <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#userModal"><i class="fa-solid fa-user-plus"></i> Add User</button>
         </div>
+        <div class="col-md-6 d-flex justify-content-between mb-3">
+          <form action="" method="POST" enctype="multipart/form-data">
+            <input class="form-check-input" type="radio" name="ver" value="All" id="flexRadioDefault1">
+            <label class="form-check-label" for="flexRadioDefault1">All Status</label>&nbsp;&nbsp;&nbsp;
+            <input class="form-check-input" type="radio" name="ver" value="Pass" id="flexRadioDefault1">
+            <label class="form-check-label" for="flexRadioDefault1">Pass</label>&nbsp;&nbsp;&nbsp;
+            <input class="form-check-input" type="radio" name="ver" value="Pending" id="flexRadioDefault2">
+            <label class="form-check-label" for="flexRadioDefault2">Pending</label>&nbsp;&nbsp;&nbsp;
+            <input class="form-check-input" type="radio" name="ver" value="Not pass" id="flexRadioDefault2">
+            <label class="form-check-label" for="flexRadioDefault2">Not pass</label>
+            <button type="submit" name="status-query" class="btn btn-primary">ค้นหา</button>
+          </form>
 
+          <form action="" method="POST" enctype="multipart/form-data">
+            <input class="form-check-input" type="radio" name="wq" value="All" id="flexRadioDefault1">
+            <label class="form-check-label" for="flexRadioDefault1">All Workplace</label>&nbsp;&nbsp;&nbsp;
+            <input class="form-check-input" type="radio" name="wq" value="AIS" id="flexRadioDefault1">
+            <label class="form-check-label" for="flexRadioDefault1">AIS</label>&nbsp;&nbsp;&nbsp;
+            <input class="form-check-input" type="radio" name="wq" value="TWZ" id="flexRadioDefault2">
+            <label class="form-check-label" for="flexRadioDefault2">TWZ</label>&nbsp;&nbsp;&nbsp;
+            <input class="form-check-input" type="radio" name="wq" value="Staff" id="flexRadioDefault2">
+            <label class="form-check-label" for="flexRadioDefault2">Staff</label>
+            <button type="submit" name="workplace-query" class="btn btn-primary">ค้นหา</button>
+          </form>
+        </div>
         <?php if (isset($_SESSION['success'])) { ?>
           <div class="alert alert-success">
             <?php
@@ -201,6 +289,7 @@ if (isset($_GET['delete'])) {
               <th scope="col">img_atk</th>
               <th scope="col">img_vaccine</th>
               <th scope="col">Status</th>
+              <th scope="col">Comment</th>
               <th scope="col">Action</th>
             </tr>
           </thead>
@@ -210,8 +299,48 @@ if (isset($_GET['delete'])) {
             $stmt->execute();
             $users = $stmt->fetchAll();
 
+            if (isset($_POST['status-query'])) {
+              if ($_POST['ver'] == 'All') {
+                $stmt = $conn->query("SELECT * FROM users");
+                $stmt->execute();
+                $users = $stmt->fetchAll();
+              } else if ($_POST['ver'] == 'Pass') {
+                $stmt = $conn->query("SELECT * FROM users WHERE user_status = 'Pass'");
+                $stmt->execute();
+                $users = $stmt->fetchAll();
+              } else if ($_POST['ver'] == 'Pending') {
+                $stmt = $conn->query("SELECT * FROM users WHERE user_status = 'Pending'");
+                $stmt->execute();
+                $users = $stmt->fetchAll();
+              } else if ($_POST['ver'] == 'Not pass') {
+                $stmt = $conn->query("SELECT * FROM users WHERE user_status = 'Not pass'");
+                $stmt->execute();
+                $users = $stmt->fetchAll();
+              }
+            }
+
+            if (isset($_POST['workplace-query'])) {
+              if ($_POST['wq'] == 'All') {
+                $stmt = $conn->query("SELECT * FROM users");
+                $stmt->execute();
+                $users = $stmt->fetchAll();
+              } else if ($_POST['wq'] == 'AIS') {
+                $stmt = $conn->query("SELECT * FROM users WHERE workplace = 'AIS'");
+                $stmt->execute();
+                $users = $stmt->fetchAll();
+              } else if ($_POST['wq'] == 'TWZ') {
+                $stmt = $conn->query("SELECT * FROM users WHERE workplace = 'TWZ'");
+                $stmt->execute();
+                $users = $stmt->fetchAll();
+              } else if ($_POST['wq'] == 'Staff') {
+                $stmt = $conn->query("SELECT * FROM users WHERE workplace = 'Staff'");
+                $stmt->execute();
+                $users = $stmt->fetchAll();
+              }
+            }
+
             if (!$users) {
-              echo "<tr><td colspan='6' class='text-center'>No users found</td></tr>";
+              echo "<tr><td colspan='12' class='text-center'>No users found</td></tr>";
             } else {
               foreach ($users as $users) {
 
@@ -223,17 +352,61 @@ if (isset($_GET['delete'])) {
                   <td><?= $users['phone']; ?></td>
                   <td><?= $users['email']; ?></td>
                   <td><?= $users['workplace']; ?></td>
-                  <td width="250px"><img width="100%" src="uploaded_person/<?= $users['image_person']; ?>" class="rounded"></td>
-                  <td width="250px"><img width="100%" src="uploaded_atk/<?= $users['image_atk']; ?>" class="rounded"></td>
-                  <td width="250px"><img width="100%" src="uploaded_vaccine/<?= $users['image_vaccine']; ?>" class="rounded"></td>
+                  <?php { ?>
+
+                  <?php } ?>
+
+                  <?php if ($users['image_person'] == '') { { ?>
+                      <td>No image</td>
+                    <?php }
+                  }
+                  if ($users['image_atk'] == '') { { ?>
+                      <td>No image</td>
+                    <?php }
+                  }
+                  if ($users['image_vaccine'] == '') { { ?>
+                      <td>No image</td>
+                    <?php }
+                  } else { { ?>
+                      <td width="100px">
+                        <div class="box">
+                          <div class="img-box">
+                            <img width="100%" src="uploaded_person/<?= $users['image_person']; ?>" class="rounded">
+                            <h2>Close</h2>
+                          </div>
+                        </div>
+                      </td>
+                      <td width="100px">
+                        <div class="box">
+                          <div class="img-box">
+                            <img width="100%" src="uploaded_atk/<?= $users['image_atk']; ?>" class="rounded">
+                            <h2>Close</h2>
+                          </div>
+                        </div>
+                      </td>
+                      <td width="100px">
+                        <div class="box">
+                          <div class="img-box">
+                            <img width="100%" src="uploaded_vaccine/<?= $users['image_vaccine']; ?>" class="rounded">
+                            <h2>Close</h2>
+                          </div>
+                        </div>
+                      </td>
+                  <?php }
+                  } ?>
 
                   <?php if ($users['user_status'] == 'Pass') { { ?>
                       <td class="text-success"><?= $users['user_status']; ?></td>
                     <?php }
+                  } else if ($users['user_status'] == 'Pending') { { ?>
+                      <td class="text-warning"><?= $users['user_status']; ?></td>
+                    <?php }
                   } else { { ?>
                       <td class="text-danger"><?= $users['user_status']; ?></td>
-                  <?php } } ?>
+                  <?php }
+                  } ?>
 
+                  <td><?= $users['comment']; ?></td>
                   <td>
                     <a href="edit.php?id=<?= $users['id']; ?>" class="btn btn-warning">แก้ไข</a>
                     <a href="?delete=<?= $users['id']; ?>" class="btn btn-danger" onclick="return confirm('คุณต้องการที่จะลบข้อมูลใช่หรือไม่?')">ลบข้อมูล</a>
@@ -254,7 +427,15 @@ if (isset($_GET['delete'])) {
 
   <!-- JS-bootstrap -->
   <script src="js/script.js"></script>
+  <script src="js/popup.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+  <script>
+    let imageBox = document.querySelectorAll('.img-box');
+    imageBox.forEach(popup => popup.addEventListener('click', () => {
+      popup.classList.toggle('active');
+    }));
+  </script>
 </body>
 
 </html>

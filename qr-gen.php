@@ -51,15 +51,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>info | Covid19 Certificate upload system</title>
+    <title>QR code gen | Covid19 Certificate upload system</title>
     <!-- css-bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <!-- css-style -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style1.css">
     <!-- Font-awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+     
+    <link rel="stylesheet" href="css/DB-Heavent-woff/stylesheet.css">
 </head>
-<body>
+<body style="font-family: 'db_heaventregular'; font-size: 1.5rem;">
     <div class="logout">
         <a href="logout.php">Logout</a>
     </div>
@@ -76,15 +82,15 @@
                  <!-- icon-mascot-ais -->
                  <div class="logo">
                     <img src="img/mascot.png" class="img-fluid" width="25%" alt="logo">
-                    <img src="img/logo.png" class="img-fluid" width="30%" alt="logo">
+                    <img src="img/logo1.png" class="img-fluid" width="30%" alt="logo">
                 </div>
-                <form action="" class="form-phone bg-white shadow p-4">
-                    <h3 class="fs-4 text-dark mb-1">Your QR Code</h3>
-                    <h4 class="fs-6 text-dark">โปรดเก็บ QR Code ของท่าน เพื่อใช้ยืนยันข้อมูล</h4>
+                <form action="" class="form-phone bg-white shadow p-4 fw-bold">
+                    <h3 class="fs-4 text-dark mb-1 fw-bold">Your QR Code</h3>
+                    <h4 class="fs-6 text-dark fw-bold">โปรดเก็บ QR Code ของท่าน เพื่อใช้ยืนยันข้อมูล</h4>
                     <div class="mb-3 row">                     
                         <div class="col-sm-12 text-start justify-content-center">
                             <label for="FName" class="col-form-label">ยินดีต้อนรับ</label>
-                            <h3><?= $fetch_profile['fname']; ?></h3>
+                            <h3 class="fw-bold fs-4"><?= $fetch_profile['fname']; ?></h3>
                             <div class="d-flex justify-content-center">
                                 <?php echo "<img src='".$file."'>";?>
                             </div>

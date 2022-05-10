@@ -18,6 +18,7 @@ if (isset($_POST['update'])) {
     $email = $_POST['email'];
     $workplace = $_POST['workplace'];
     $verify = $_POST['ver'];
+    $comment = $_POST['comment'];
     $image_person = $_FILES['image_person'];
     $image_atk = $_FILES['image_atk'];
     $image_vaccine = $_FILES['image_vaccine'];
@@ -121,7 +122,7 @@ if (isset($_POST['update'])) {
         $new_image_vaccine = $image_vaccine2;
     }
 
-    $sql = $conn->prepare("UPDATE users SET fname = :fname, lname = :lname, phone = :phone, email = :email, workplace = :workplace, user_status = :user_status, image_person = :image_person, image_atk = :image_atk, image_vaccine = :image_vaccine WHERE id = :id");
+    $sql = $conn->prepare("UPDATE users SET fname = :fname, lname = :lname, phone = :phone, email = :email, workplace = :workplace, user_status = :user_status, comment = :comment, image_person = :image_person, image_atk = :image_atk, image_vaccine = :image_vaccine WHERE id = :id");
     $sql->bindParam(":id", $id);
     $sql->bindParam(":fname", $fname);
     $sql->bindParam(":lname", $lname);
@@ -129,6 +130,7 @@ if (isset($_POST['update'])) {
     $sql->bindParam(":email", $email);
     $sql->bindParam(":workplace", $workplace);
     $sql->bindParam(":user_status", $verify);
+    $sql->bindParam(":comment", $comment);
     $sql->bindParam(":image_person", $new_image_person);
     $sql->bindParam(":image_atk", $new_image_atk);
     $sql->bindParam(":image_vaccine", $new_image_vaccine);
@@ -183,7 +185,7 @@ if (isset($_POST['update'])) {
     <!-- css-bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <!-- css-style -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style1.css">
     <!-- fontawesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -224,15 +226,18 @@ if (isset($_POST['update'])) {
                     <label for="Email" class="col-form-label">อีเมล</label>
                     <input style="border: solid 2px #222; border-radius:5px; padding:5px;" type="email" name="email" value="<?= $data['email']; ?>" class="form-control-plaintext" id="FName" placeholder="โปรดระบุอีเมล Ex: t-stone@mail.com" required>
 
-                    <label for="organization" class="col-form-label">องค์กร</label>
-                    <input style="border: solid 2px #222; border-radius:5px; padding:5px;" type="text" name="workplace" value="<?= $data['workplace']; ?>" class="form-control-plaintext" id="FName" placeholder="โปรดระบุองค์กร" required><br>
+                    <label for="organization" class="col-form-label">หน่วยงาน</label>
+                    <input style="border: solid 2px #222; border-radius:5px; padding:5px;" type="text" name="workplace" value="<?= $data['workplace']; ?>" class="form-control-plaintext" id="FName" placeholder="โปรดระบุหน่วยงาน" required><br>
 
                     <div class="d-flex justify-content-center">
-                        <input class="form-check-input" type="radio" name="ver" value="Pass" id="flexRadioDefault1">
+                        <input class="form-check-input" type="radio" name="ver" value="Pass" id="flexRadioDefault1" required>
                         <label class="form-check-label" for="flexRadioDefault1">ผ่านการตรวจสอบ</label>&nbsp;&nbsp;&nbsp;
-                        <input class="form-check-input" type="radio" name="ver" value="Not pass" id="flexRadioDefault2" checked>
+                        <input class="form-check-input" type="radio" name="ver" value="Not pass" id="flexRadioDefault2" required>
                         <label class="form-check-label" for="flexRadioDefault2">ไม่ผ่านการตรวจสอบ</label><br><br>
                     </div>
+
+                    <label for="organization" class="col-form-label">เหตุผล</label>
+                    <input style="border: solid 2px #222; border-radius:5px; padding:5px;" type="text" name="comment" value="<?= $data['comment']; ?>" class="form-control-plaintext" id="FName" placeholder="โปรดระบุเหตุผล" required><br>
 
 
                     <!-- Image -->
