@@ -108,67 +108,73 @@ if (isset($_GET['delete'])) {
 
     /* POPUP */
 
-.box .img-box{
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    .box .img-box {
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
 
-}
-.box .img-box.active{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1000;
-}
-/* .box .img-box img{
+    }
+
+    .box .img-box.active {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1000;
+    }
+
+    /* .box .img-box img{
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
 } */
-.box .img-box.active img{
-    position: absolute;
-    left: 30%;
-    width: calc(50% - 100px);
-    height: calc(100% - 100px);
-}
-.box .img-box h2{
-    opacity: 0;
-    visibility: hidden;
-    cursor: pointer;
-}
-.box .img-box.active h2{
-    opacity: 1;
-    visibility: visible;
-    text-align: center;
-    color: red;
-    font-size: 18px;
-    font-weight: 800;
-    margin-top: 15px;
-    letter-spacing: 4px;
-}
-.box .img-box .content{
-    position: absolute;
-    bottom: 50px;
-    right: 50px;
-    left: 50px;
-    opacity: 0;
-    visibility: hidden;
-    background: rgba(0, 0, 0, 0.8);
-    padding: 20px;
-    color: #ffffff;
-    transform: translateY(100%);
-}
-.box .img-box.active .content{
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-    transition: 0.5s;
-}
+    .box .img-box.active img {
+      position: absolute;
+      left: 30%;
+      width: calc(50% - 100px);
+      height: calc(100% - 100px);
+    }
+
+    .box .img-box h2 {
+      opacity: 0;
+      visibility: hidden;
+      cursor: pointer;
+    }
+
+    .box .img-box.active h2 {
+      opacity: 1;
+      visibility: visible;
+      text-align: center;
+      color: red;
+      font-size: 18px;
+      font-weight: 800;
+      margin-top: 15px;
+      letter-spacing: 4px;
+    }
+
+    .box .img-box .content {
+      position: absolute;
+      bottom: 50px;
+      right: 50px;
+      left: 50px;
+      opacity: 0;
+      visibility: hidden;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 20px;
+      color: #ffffff;
+      transform: translateY(100%);
+    }
+
+    .box .img-box.active .content {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      transition: 0.5s;
+    }
   </style>
 
   <!-- css-bootstrap -->
@@ -245,18 +251,6 @@ if (isset($_GET['delete'])) {
             <label class="form-check-label" for="flexRadioDefault2">Not pass</label>
             <button type="submit" name="status-query" class="btn btn-primary">ค้นหา</button>
           </form>
-
-          <form action="" method="POST" enctype="multipart/form-data">
-            <input class="form-check-input" type="radio" name="wq" value="All" id="flexRadioDefault1">
-            <label class="form-check-label" for="flexRadioDefault1">All Workplace</label>&nbsp;&nbsp;&nbsp;
-            <input class="form-check-input" type="radio" name="wq" value="AIS" id="flexRadioDefault1">
-            <label class="form-check-label" for="flexRadioDefault1">AIS</label>&nbsp;&nbsp;&nbsp;
-            <input class="form-check-input" type="radio" name="wq" value="TWZ" id="flexRadioDefault2">
-            <label class="form-check-label" for="flexRadioDefault2">TWZ</label>&nbsp;&nbsp;&nbsp;
-            <input class="form-check-input" type="radio" name="wq" value="Staff" id="flexRadioDefault2">
-            <label class="form-check-label" for="flexRadioDefault2">Staff</label>
-            <button type="submit" name="workplace-query" class="btn btn-primary">ค้นหา</button>
-          </form>
         </div>
         <?php if (isset($_SESSION['success'])) { ?>
           <div class="alert alert-success">
@@ -314,26 +308,6 @@ if (isset($_GET['delete'])) {
                 $users = $stmt->fetchAll();
               } else if ($_POST['ver'] == 'Not pass') {
                 $stmt = $conn->query("SELECT * FROM users WHERE user_status = 'Not pass'");
-                $stmt->execute();
-                $users = $stmt->fetchAll();
-              }
-            }
-
-            if (isset($_POST['workplace-query'])) {
-              if ($_POST['wq'] == 'All') {
-                $stmt = $conn->query("SELECT * FROM users");
-                $stmt->execute();
-                $users = $stmt->fetchAll();
-              } else if ($_POST['wq'] == 'AIS') {
-                $stmt = $conn->query("SELECT * FROM users WHERE workplace = 'AIS'");
-                $stmt->execute();
-                $users = $stmt->fetchAll();
-              } else if ($_POST['wq'] == 'TWZ') {
-                $stmt = $conn->query("SELECT * FROM users WHERE workplace = 'TWZ'");
-                $stmt->execute();
-                $users = $stmt->fetchAll();
-              } else if ($_POST['wq'] == 'Staff') {
-                $stmt = $conn->query("SELECT * FROM users WHERE workplace = 'Staff'");
                 $stmt->execute();
                 $users = $stmt->fetchAll();
               }

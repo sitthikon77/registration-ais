@@ -26,7 +26,7 @@ if (isset($_POST['submit'])) {
             $_SESSION['user_image'] = $row['image_person'];
             $success_message[] = 'กำลังเข้าสู่ระบบ...';
 
-            if ($row['user_status'] != 'Not pass') {
+            if ($row['user_status'] == 'Pass') {
                 header('refresh:2;qr-gen.php');
             } else {
                 header('refresh:2;info.php');
@@ -68,6 +68,9 @@ if (isset($_POST['submit'])) {
         </div>
         <div class="container">
             <div class="col-sm-8 offset-sm-2 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4 text-center">
+                <div class="d-flex justify-content-end mt-3">
+                    <a class="fs-5" style="text-decoration: none; color: #b2d233;" href="register.php">N</a>
+                </div>
                 <!-- icon-mascot-ais -->
                 <div class="logo">
                     <img src="img/mascot.png" class="img-fluid" width="45%" alt="logo">
@@ -107,10 +110,9 @@ if (isset($_POST['submit'])) {
                         <button type="submit" name="submit" class="check fw-bold">เข้าสู่ระบบ</button>
                     </div>
                 </form>
-                <div class="d-flex justify-content-end mt-3">
-
+                <!-- <div class="d-flex justify-content-end mt-3">
                     <a class="fs-5 fw-bold" style="text-decoration: none; color: grey;" href="register.php">New Account</a>
-                </div>
+                </div> -->
                 <a type="button" id="myInput" class="fw-bolder mt-2 fs-3" style="text-decoration: none;" data-bs-toggle="modal" data-bs-target="#myModal">
                     คู่มือการลงทะเบียน
                 </a>
